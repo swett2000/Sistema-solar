@@ -1,0 +1,55 @@
+Web VPython 3.2 
+
+sunRadius = 0.2
+earthRadius = sunRadius * 0.5
+
+moonRadius = earthRadius * 0.27
+
+astronomicalUnit = 4.0
+earthAngle = 0
+moonAngle = 0
+
+earthMoonDistance = earthRadius * 6
+
+earthOrbitRate = 1
+moonOrbitRate = 13
+
+sun = sphere( radius = sunRadius, opacity = 0.7, emissive = True, texture = "http://i.imgur.com/yoEzbtg.jpg" )
+
+sunlight = local_light( pos = vec(0,0,0), color=color.white )
+more_sunlight = local_light( pos = vec(0,0,0), color=color.white )
+
+earth = sphere ( radius = earthRadius, texture = "https://depositphotos.com/photo/world-texture-satellite-image-earth-high-resolution-texture-planet-relief-391666806.html", flipx = False , shininess = 0.9)
+
+moon = sphere ( radius = moonRadius, texture = "http://i.imgur.com/YPg4RPU.jpg", flipx = True, flipy = True,shininess = 0.9)
+
+
+scene.camera.follow(sun)
+scene.bind("mousedown", changeView)
+
+def changeView():
+        chosenObject = scene.mouse.pick()
+        if chosenObject != None:
+                scene.camera.follow(chosenObject)
+
+programSpeed = 0.02
+def setspeed():
+        global programSpeed
+        programSpeed = $("#speed_slider").slider("value")
+        
+$('<div id="speed_slider"></div>').appendTo(scene.caption).css(width="750px")
+
+$(def ():
+         $("#speed_slider").slider(value=0.02, step = 0.0005, min=0, max=0.05, range="min", slide=setspeed,change=setspeed)
+
+)while (True):
+         rate(100)
+         earth.pos = vec( astronomicalUnit * cos(radians(earthAngle)), 0, astronomicalUnit * sin(radians(earthAngle)) )
+         moon.pos = earth.pos + vec (earthMoonDistance * cos(radians(moonAngle)), 0, earthMoonDistance *
+sin(radians(moonAngle)) )
+
+         earthAngle -= earthOrbitRate * programSpeed
+         moonAngle -= moonOrbitRate * programSpeed
+         earth.rotate (angle = radians(programSpeed * 360), axis = vec(0, 1, 0))
+         moon.rotate (angle = radians(programSpeed * moonOrbitRate), axis = vec(0, 1, 0))
+         sun.rotate (angle = radians(programSpeed * 16), axis = vec(0, 1, 0))
